@@ -4,20 +4,6 @@ React-Select
 A Select control built with and for [React](http://facebook.github.io/react/index.html), initially being developed for use in [KeystoneJS](http://www.keystonejs.com).
 
 
-## Demo & Examples
-
-Live demo: [jedwatson.github.io/react-select](http://jedwatson.github.io/react-select/)
-
-To build the examples locally, run:
-
-```
-npm install
-gulp dev
-```
-
-Then open [`localhost:8000`](http://localhost:8000) in a browser.
-
-
 ## Project Status
 
 This is currently a work in progress.
@@ -33,13 +19,7 @@ TODO:
 
 ## Installation
 
-The easiest way to use React-Select is to install it from NPM and include it in your own React build process (using [Browserify](http://browserify.org), etc).
 
-You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included React and Underscore.
-
-```
-npm install react-select --save
-```
 
 
 ## Usage

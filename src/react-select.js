@@ -1,14 +1,22 @@
-"use strict";
+define(['react','underscore', 'react-input-autosize'], function(React, _, Input){
 
-var _ = require("underscore"),
-    React = require("react"),
-    Input = require("react-input-autosize"),
-    classes = require("classnames"),
-    Value = require("./Value");
+function classes() {
+	var args = arguments, classes = [];
+	for (var i = 0; i < args.length; i++) {
+		if (args[i] && 'string' === typeof args[i]) {
+			classes.push(args[i]);
+		} else if ('object' === typeof args[i]) {
+			classes = classes.concat(Object.keys(args[i]).filter(function(cls) {
+				return args[i][cls];
+			}));
+		}
+	}
+	return classes.join(' ') || undefined;
+};
 
 var requestId = 0;
 
-var Select = React.createClass({
+var Select = React.createFactory(React.createClass({
 
   displayName: "Select",
 
@@ -69,7 +77,8 @@ var Select = React.createClass({
       options: this.props.options,
       isFocused: false,
       isOpen: false,
-      isLoading: false
+      isLoading: false,
+          values: []
     };
   },
 
@@ -453,11 +462,11 @@ var Select = React.createClass({
           mouseLeave = this.unfocusOption.bind(this, op),
           mouseDown = this.selectValue.bind(this, op);
 
-      return React.createElement(
+      return React.createFactory(React.createElement(
         "div",
         { ref: ref, key: "option-" + op.value, className: optionClass, onMouseEnter: mouseEnter, onMouseLeave: mouseLeave, onMouseDown: mouseDown, onClick: mouseDown },
         op.label
-      );
+      ));
     }, this);
 
     return ops.length ? ops : React.createElement(
@@ -521,6 +530,44 @@ var Select = React.createClass({
     );
   }
 
-});
+}));
 
-module.exports = Select;
+
+
+
+var Option = React.createFactory(React.createClass({
+
+  displayName: "Value",
+
+  propTypes: {
+    label: React.PropTypes.string.isRequired
+  },
+
+  blockEvent: function (event) {
+    event.stopPropagation();
+  },
+
+  render: function () {
+    return React.createElement(
+      "div",
+      { className: "Select-item" },
+      React.createElement(
+        "span",
+        { className: "Select-item-icon", onMouseDown: this.blockEvent, onClick: this.props.onRemove, onTouchEnd: this.props.onRemove },
+        "×"
+      ),
+      React.createElement(
+        "span",
+        { className: "Select-item-label" },
+        this.props.label
+      )
+    );
+  }
+
+}));
+
+return {
+    Option : Option,
+    Select : Select
+};
+});
